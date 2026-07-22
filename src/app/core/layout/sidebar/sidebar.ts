@@ -1,5 +1,15 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject
+} from '@angular/core';
+
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive
+} from '@angular/router';
+
 import { LayoutStateService } from '../layout/layout-state.service';
 
 @Component({
@@ -10,16 +20,20 @@ import { LayoutStateService } from '../layout/layout-state.service';
     RouterLinkActive
   ],
   templateUrl: './sidebar.html',
-  
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Sidebar {
-
-  readonly layoutState = inject(LayoutStateService);
+  private readonly layoutState = inject(LayoutStateService);
+  private readonly router = inject(Router);
 
   readonly open = this.layoutState.sidebarOpen;
 
   toggleMenu(): void {
     this.layoutState.toggle();
+  }
+
+  logout(): void {
+    this.toggleMenu();
+    this.router.navigate(['/login']);
   }
 }
