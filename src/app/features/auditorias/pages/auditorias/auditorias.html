@@ -1,0 +1,13 @@
+<div class="pl-24 pr-8 pt-8 space-y-6">
+
+  <!-- Toolbar de Auditorías (Incluye el título y los controles integrados en Glassmorphism) -->
+  <app-auditorias-toolbar
+    (searchChange)="onSearch($event)"
+    (openFilters)="onOpenFilters()"
+    (createAuditoria)="onOpenCreateModal()"
+  />
+
+  <!-- Espacio preparado para la tabla de resultados (Siguiente paso) -->
+  <!-- <app-auditorias-table [auditorias]="auditorias()" /> -->
+
+</div>

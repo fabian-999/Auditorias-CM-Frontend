@@ -1,0 +1,102 @@
+<!-- Botón hamburguesa (Ahora visible en Mobile y Desktop solo cuando el menú está cerrado) -->
+@if (!open()) {
+  <button
+    (click)="toggleMenu()"
+    type="button"
+    aria-controls="default-sidebar"
+    class="fixed left-4 top-4 z-50 rounded-lg bg-green-800 p-3 text-white shadow-lg transition-all hover:bg-green-900 active:scale-95"
+  >
+    <span class="sr-only">Abrir menú de navegación</span>
+    <svg class="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+    </svg>
+  </button>
+}
+
+<!-- Fondo oscuro / Overlay (Se mantiene solo en Mobile con lg:hidden para no bloquear la pantalla en Desktop) -->
+@if (open()) {
+  <div
+    class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity lg:hidden"
+    (click)="toggleMenu()"
+    aria-hidden="true"
+  ></div>
+}
+
+<!-- Sidebar: Eliminado lg:translate-x-0 y ajustado a flex para que obedezca siempre a open() -->
+<aside
+  id="default-sidebar"
+  class="fixed left-0 top-0 z-50 flex h-screen w-72 flex-col bg-[#0F3D2E] text-white shadow-2xl transition-transform duration-300 ease-in-out"
+  [class.-translate-x-full]="!open()"
+  [class.translate-x-0]="open()"
+  aria-label="Sidebar"
+>
+  <!-- Encabezado (Con botón interno de cierre agregado) -->
+  <div class="flex items-center justify-between border-b border-green-900/50 p-6">
+    <div>
+      <h1 class="text-2xl font-bold text-emerald-400">CM Colombia</h1>
+      <p class="text-sm text-green-100/70">Sistema de Auditorías</p>
+    </div>
+    <!-- Botón para cerrar desde adentro del menú -->
+    <button 
+      (click)="toggleMenu()" 
+      type="button"
+      class="rounded-lg p-2 text-green-200 transition hover:bg-green-900/80 hover:text-white"
+      aria-label="Cerrar menú"
+    >
+      ✕
+    </button>
+  </div>
+
+  <!-- Navegación -->
+  <nav class="flex-grow space-y-2 px-4 pt-6">
+    <a
+      routerLink="/"
+      routerLinkActive="bg-emerald-700/80 text-white font-medium"
+      (click)="toggleMenu()"
+      class="flex items-center gap-3 rounded-xl px-4 py-3 text-green-50 transition hover:bg-green-950 active:bg-green-900/50"
+    >
+      <span class="w-6 text-center text-lg">🏠</span>
+      <span>Dashboard</span>
+    </a>
+
+    <a
+      routerLink="/auditorias"
+      routerLinkActive="bg-emerald-700/80 text-white font-medium"
+      (click)="toggleMenu()"
+      class="flex items-center gap-3 rounded-xl px-4 py-3 text-green-50 transition hover:bg-green-950 active:bg-green-900/50"
+    >
+      <span class="w-6 text-center text-lg">📋</span>
+      <span>Auditorías</span>
+    </a>
+
+    <a
+      routerLink="/hallazgos"
+      routerLinkActive="bg-emerald-700/80 text-white font-medium"
+      (click)="toggleMenu()"
+      class="flex items-center gap-3 rounded-xl px-4 py-3 text-green-50 transition hover:bg-green-950 active:bg-green-900/50"
+    >
+      <span class="w-6 text-center text-lg">🔎</span>
+      <span>Hallazgos</span>
+    </a>
+
+    <a
+      routerLink="/informes"
+      routerLinkActive="bg-emerald-700/80 text-white font-medium"
+      (click)="toggleMenu()"
+      class="flex items-center gap-3 rounded-xl px-4 py-3 text-green-50 transition hover:bg-green-950 active:bg-green-900/50"
+    >
+      <span class="w-6 text-center text-lg">📄</span>
+      <span>Informes</span>
+    </a>
+
+    <a
+      routerLink="/configuracion"
+      routerLinkActive="bg-emerald-700/80 text-white font-medium"
+      (click)="toggleMenu()"
+      class="flex items-center gap-3 rounded-xl px-4 py-3 text-green-50 transition hover:bg-green-950 active:bg-green-900/50"
+    >
+      <span class="w-6 text-center text-lg">⚙</span>
+      <span>Configuración</span>
+    </a>
+  </nav>
+</aside>
