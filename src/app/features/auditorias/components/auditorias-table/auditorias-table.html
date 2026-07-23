@@ -1,1 +1,136 @@
-<p>auditorias-table works!</p>
+<div class="w-full bg-slate-900/60 backdrop-blur-xl border border-emerald-500/20 rounded-2xl overflow-hidden shadow-xl shadow-slate-950/40">
+
+  <!-- Estado de Carga -->
+  @if (loading()) {
+    <div class="flex flex-col items-center justify-center py-16 px-4">
+      <div class="relative w-12 h-12 mb-4">
+        <div class="absolute inset-0 rounded-full border-2 border-emerald-500/20 border-t-emerald-400 animate-spin"></div>
+      </div>
+      <p class="text-sm font-medium text-emerald-200/80 animate-pulse">Cargando auditorías...</p>
+    </div>
+  }
+
+  <!-- Estado de Error -->
+  @else if (error()) {
+    <div class="p-6 m-4 bg-rose-500/10 border border-rose-500/30 rounded-xl text-center">
+      <div class="inline-flex p-3 rounded-full bg-rose-500/20 text-rose-400 mb-3">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <h4 class="text-base font-semibold text-rose-300 mb-1">Ocurrió un error</h4>
+      <p class="text-xs text-rose-200/70">{{ error() }}</p>
+    </div>
+  }
+
+  <!-- Tabla de Resultados -->
+  @else {
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm text-slate-300">
+        <!-- Encabezado de la tabla -->
+        <thead class="bg-slate-950/60 text-xs font-semibold text-emerald-200/80 uppercase tracking-wider border-b border-emerald-500/20">
+          <tr>
+            <th scope="col" class="px-6 py-4">Auditoría / Proceso</th>
+            <th scope="col" class="px-6 py-4">Ubicación / Punto</th>
+            <th scope="col" class="px-6 py-4">Estado</th>
+            <th scope="col" class="px-6 py-4">Fechas</th>
+            <th scope="col" class="px-6 py-4 text-right">Acciones</th>
+          </tr>
+        </thead>
+
+        <!-- Cuerpo de la tabla -->
+        <tbody class="divide-y divide-emerald-500/10">
+          @for (auditoria of filteredAuditorias(); track auditoria.id) {
+            <tr class="hover:bg-emerald-500/5 transition-colors group">
+              <!-- Columna Título / Proceso -->
+              <td class="px-6 py-4">
+                <div class="font-semibold text-white group-hover:text-emerald-300 transition-colors">
+                  {{ auditoria.title }}
+                </div>
+                <div class="text-xs text-slate-400">
+                  {{ auditoria.process || 'Sin proceso asignado' }}
+                </div>
+              </td>
+
+              <!-- Columna Punto -->
+              <td class="px-6 py-4 text-slate-300">
+                <div class="flex items-center gap-1.5 text-xs">
+                  <svg class="w-4 h-4 text-emerald-400/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span>{{ auditoria.punto || 'N/A' }}</span>
+                </div>
+              </td>
+
+              <!-- Columna Estado -->
+              <td class="px-6 py-4">
+                <app-auditoria-status-badge [status]="auditoria.status" />
+              </td>
+
+              <!-- Columna Fechas -->
+              <td class="px-6 py-4 text-xs text-slate-400">
+                @if (auditoria.start_date || auditoria.end_date) {
+                  <div>
+                    <span>{{ auditoria.start_date ? (auditoria.start_date | date:'dd/MM/yyyy') : '—' }}</span>
+                    <span class="mx-1 text-emerald-500/60">→</span>
+                    <span>{{ auditoria.end_date ? (auditoria.end_date | date:'dd/MM/yyyy') : '—' }}</span>
+                  </div>
+                } @else {
+                  <span class="text-slate-500 italic">No programada</span>
+                }
+              </td>
+
+              <!-- Columna Acciones -->
+              <td class="px-6 py-4 text-right whitespace-nowrap">
+                <div class="flex items-center justify-end gap-2">
+                  <!-- Botón Editar -->
+                  <button 
+                    type="button"
+                    (click)="onEdit(auditoria)"
+                    title="Editar auditoría"
+                    class="p-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/20 transition-all hover:scale-105 active:scale-95">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  </button>
+
+                  <!-- Botón Eliminar -->
+                  <button 
+                    type="button"
+                    (click)="onDelete(auditoria)"
+                    title="Eliminar auditoría"
+                    class="p-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 transition-all hover:scale-105 active:scale-95">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="py-12 px-4 text-center">
+                <div class="flex flex-col items-center justify-center">
+                  <div class="p-3 rounded-full bg-slate-800/80 text-emerald-400/60 border border-emerald-500/10 mb-3">
+                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                  </div>
+                  <p class="text-sm font-semibold text-slate-200">No se encontraron auditorías</p>
+                  <p class="text-xs text-slate-400 mt-1 max-w-sm">
+                    @if (searchQuery()) {
+                      No hay resultados coincidentes con "{{ searchQuery() }}".
+                    } @else {
+                      Aún no se ha registrado ninguna auditoría en el sistema.
+                    }
+                  </p>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -1,1 +1,25 @@
-<p>auditoria-status-badge works!</p>
+@switch (status()) {
+  @case ('open') {
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shadow-sm shadow-emerald-500/10">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      Abierta
+    </span>
+  }
+  @case ('in_progress') {
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30 shadow-sm shadow-amber-500/10">
+      <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+      En Progreso
+    </span>
+  }
+  @case ('closed') {
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-500/20 text-slate-300 border border-slate-500/30">
+      <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+      Cerrada
+    </span>
+  }
+  @default {
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-500/20 text-slate-300 border border-slate-500/30">
+      {{ status() }}
+    </span>
+  }
+}
