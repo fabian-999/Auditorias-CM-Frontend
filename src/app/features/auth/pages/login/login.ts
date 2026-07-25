@@ -1,10 +1,9 @@
 import { Component, inject } from '@angular/core';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+
+import { Auth } from '../../services/auth';
+import { LoginDto } from '../../models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +13,7 @@ import { RouterLink } from '@angular/router';
     RouterLink
   ],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrls: ['./login.css']
 })
 export class Login {
 
