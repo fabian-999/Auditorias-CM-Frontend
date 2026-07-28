@@ -53,6 +53,11 @@ export class Layout {
 
     // Save map instance so it can be removed later if needed
     (this as any).__epicMap = map;
+    // Invalidate size after initialization and on window resize so map renders correctly
+    setTimeout(() => map.invalidateSize(), 200);
+    const resizeHandler = () => map.invalidateSize();
+    window.addEventListener('resize', resizeHandler);
+    (this as any).__resizeHandler = resizeHandler;
   }
 
   ngOnDestroy(): void {
@@ -60,5 +65,7 @@ export class Layout {
     if (map) {
       map.remove();
     }
+    const handler = (this as any).__resizeHandler;
+    if (handler) window.removeEventListener('resize', handler);
   }
 }
