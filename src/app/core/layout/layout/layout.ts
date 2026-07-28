@@ -34,13 +34,13 @@ export class Layout {
 
     const map = L.map(el, { zoomControl: true, attributionControl: false }).setView([lat, lon], 12);
 
-    // Use CartoDB Voyager tiles for a clean, modern look
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    // Use CartoDB Voyager (no labels) tiles for a clean map without text labels
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
       maxZoom: 19,
       subdomains: 'abcd'
     }).addTo(map);
 
-    // Add a subtle pulsing marker (simple circle + popup)
+    // Add a subtle marker (simple circle + popup)
     const marker = L.circleMarker([lat, lon], {
       radius: 10,
       color: '#10b981',
