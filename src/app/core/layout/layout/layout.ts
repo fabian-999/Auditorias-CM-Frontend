@@ -52,7 +52,21 @@ export class Layout {
 
       (this as any).__epicMap = map;
 
-      setTimeout(() => map.invalidateSize(), 250);
+      // Ensure the map has the correct size before rendering tiles.
+      // Retry a few times until the container reports a sensible width, then invalidate.
+      const ensureSize = (attempt = 0) => {
+        const w = el.clientWidth || el.getBoundingClientRect().width;
+        if (w && w > 50) {
+          map.invalidateSize();
+        } else if (attempt < 12) {
+          setTimeout(() => ensureSize(attempt + 1), 150);
+        } else {
+          // last resort
+          map.invalidateSize();
+        }
+      };
+      ensureSize();
+
       const resizeHandler = () => map.invalidateSize();
       window.addEventListener('resize', resizeHandler);
       (this as any).__resizeHandler = resizeHandler;
