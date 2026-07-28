@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 
-import { Auditorias } from '../../auditorias/services/auditorias';
-import { Audit } from '../../auditorias/models/auditoria.model';
+import { Auditorias } from '../../../auditorias/services/auditorias';
+import { Audit } from '../../../auditorias/models/auditoria.model';
 
 interface Slide {
   title: string;
@@ -23,6 +23,7 @@ export class Home implements OnInit {
   currentIndex = 0;
 
   private auditoriasService = inject(Auditorias);
+  private cdr = inject(ChangeDetectorRef);
 
   slides: Slide[] = [
     {
@@ -61,6 +62,10 @@ export class Home implements OnInit {
     return this.auditorias.length;
   }
 
+  get completionPercentage(): number {
+    return this.totalCount ? ((this.totalCount - this.pendingReports) / this.totalCount) * 100 : 0;
+  }
+
   get recentAuditorias(): Audit[] {
     return [...this.auditorias]
       .sort((a, b) => Number(new Date(b.created_at)) - Number(new Date(a.created_at)))
@@ -79,23 +84,63 @@ export class Home implements OnInit {
     return this.auditoriasService.error();
   }
 
+  private isSliderPaused = false;
+  private slideIntervalId: ReturnType<typeof window.setInterval> | null = null;
+
   ngOnInit(): void {
     this.auditoriasService.loadAuditorias().subscribe({
       error: (err) => console.error('Error al cargar auditorías en Home:', err),
     });
 
-    setInterval(() => this.nextSlide(), 8000);
+    this.startAutoSlide();
+  }
+
+  ngOnDestroy(): void {
+    this.stopAutoSlide();
+  }
+
+  pauseSlider(): void {
+    this.isSliderPaused = true;
+  }
+
+  resumeSlider(): void {
+    this.isSliderPaused = false;
   }
 
   nextSlide(): void {
+    if (this.isSliderPaused) {
+      return;
+    }
+
     this.currentIndex = (this.currentIndex + 1) % this.slides.length;
   }
 
   previousSlide(): void {
     this.currentIndex = (this.currentIndex + this.slides.length - 1) % this.slides.length;
+    this.restartAutoSlide();
   }
 
   selectSlide(index: number): void {
     this.currentIndex = index;
+    this.restartAutoSlide();
+  }
+
+  private startAutoSlide(): void {
+    this.stopAutoSlide();
+    this.slideIntervalId = window.setInterval(() => {
+      this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+      this.cdr.detectChanges();
+    }, 4000);
+  }
+
+  private stopAutoSlide(): void {
+    if (this.slideIntervalId !== null) {
+      clearInterval(this.slideIntervalId);
+      this.slideIntervalId = null;
+    }
+  }
+
+  private restartAutoSlide(): void {
+    this.startAutoSlide();
   }
 }

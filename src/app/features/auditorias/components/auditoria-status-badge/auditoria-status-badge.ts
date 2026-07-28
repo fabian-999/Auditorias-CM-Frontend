@@ -6,7 +6,7 @@ import { AuditStatus } from '../../models/auditoria.model';
   standalone: true,
   imports: [],
   templateUrl: './auditoria-status-badge.html',
-  styleUrl: './auditoria-status-badge.css',
+  styleUrls: ['./auditoria-status-badge.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuditoriaStatusBadge {

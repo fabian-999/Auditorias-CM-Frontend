@@ -1,17 +1,15 @@
 <div class="w-full bg-slate-900/60 backdrop-blur-xl border border-emerald-500/20 rounded-2xl overflow-hidden shadow-xl shadow-slate-950/40">
 
-  <!-- Estado de Carga -->
-  @if (loading()) {
+  <ng-container *ngIf="loading()">
     <div class="flex flex-col items-center justify-center py-16 px-4">
       <div class="relative w-12 h-12 mb-4">
         <div class="absolute inset-0 rounded-full border-2 border-emerald-500/20 border-t-emerald-400 animate-spin"></div>
       </div>
       <p class="text-sm font-medium text-emerald-200/80 animate-pulse">Cargando auditorías...</p>
     </div>
-  }
+  </ng-container>
 
-  <!-- Estado de Error -->
-  @else if (error()) {
+  <ng-container *ngIf="!loading() && error()">
     <div class="p-6 m-4 bg-rose-500/10 border border-rose-500/30 rounded-xl text-center">
       <div class="inline-flex p-3 rounded-full bg-rose-500/20 text-rose-400 mb-3">
         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -21,13 +19,11 @@
       <h4 class="text-base font-semibold text-rose-300 mb-1">Ocurrió un error</h4>
       <p class="text-xs text-rose-200/70">{{ error() }}</p>
     </div>
-  }
+  </ng-container>
 
-  <!-- Tabla de Resultados -->
-  @else {
+  <ng-container *ngIf="!loading() && !error()">
     <div class="overflow-x-auto">
       <table class="w-full text-left text-sm text-slate-300">
-        <!-- Encabezado de la tabla -->
         <thead class="bg-slate-950/60 text-xs font-semibold text-emerald-200/80 uppercase tracking-wider border-b border-emerald-500/20">
           <tr>
             <th scope="col" class="px-6 py-4">Auditoría / Proceso</th>
@@ -38,11 +34,9 @@
           </tr>
         </thead>
 
-        <!-- Cuerpo de la tabla -->
         <tbody class="divide-y divide-emerald-500/10">
-          @for (auditoria of filteredAuditorias(); track auditoria.id) {
+          <ng-container *ngFor="let auditoria of filteredAuditorias(); trackBy: trackByAuditoriaId">
             <tr class="hover:bg-emerald-500/5 transition-colors group">
-              <!-- Columna Título / Proceso -->
               <td class="px-6 py-4">
                 <div class="font-semibold text-white group-hover:text-emerald-300 transition-colors">
                   {{ auditoria.title }}
@@ -51,8 +45,6 @@
                   {{ auditoria.process || 'Sin proceso asignado' }}
                 </div>
               </td>
-
-              <!-- Columna Punto -->
               <td class="px-6 py-4 text-slate-300">
                 <div class="flex items-center gap-1.5 text-xs">
                   <svg class="w-4 h-4 text-emerald-400/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -62,29 +54,21 @@
                   <span>{{ auditoria.punto || 'N/A' }}</span>
                 </div>
               </td>
-
-              <!-- Columna Estado -->
               <td class="px-6 py-4">
                 <app-auditoria-status-badge [status]="auditoria.status" />
               </td>
-
-              <!-- Columna Fechas -->
               <td class="px-6 py-4 text-xs text-slate-400">
-                @if (auditoria.start_date || auditoria.end_date) {
-                  <div>
-                    <span>{{ auditoria.start_date ? (auditoria.start_date | date:'dd/MM/yyyy') : '—' }}</span>
-                    <span class="mx-1 text-emerald-500/60">→</span>
-                    <span>{{ auditoria.end_date ? (auditoria.end_date | date:'dd/MM/yyyy') : '—' }}</span>
-                  </div>
-                } @else {
+                <div *ngIf="auditoria.start_date || auditoria.end_date; else noDate">
+                  <span>{{ auditoria.start_date ? (auditoria.start_date | date:'dd/MM/yyyy') : '—' }}</span>
+                  <span class="mx-1 text-emerald-500/60">→</span>
+                  <span>{{ auditoria.end_date ? (auditoria.end_date | date:'dd/MM/yyyy') : '—' }}</span>
+                </div>
+                <ng-template #noDate>
                   <span class="text-slate-500 italic">No programada</span>
-                }
+                </ng-template>
               </td>
-
-              <!-- Columna Acciones -->
               <td class="px-6 py-4 text-right whitespace-nowrap">
                 <div class="flex items-center justify-end gap-2">
-                  <!-- Botón Editar -->
                   <button 
                     type="button"
                     (click)="onEdit(auditoria)"
@@ -94,8 +78,6 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
                   </button>
-
-                  <!-- Botón Eliminar -->
                   <button 
                     type="button"
                     (click)="onDelete(auditoria)"
@@ -108,29 +90,29 @@
                 </div>
               </td>
             </tr>
-          } @empty {
-            <tr>
-              <td colspan="5" class="py-12 px-4 text-center">
-                <div class="flex flex-col items-center justify-center">
-                  <div class="p-3 rounded-full bg-slate-800/80 text-emerald-400/60 border border-emerald-500/10 mb-3">
-                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
-                  </div>
-                  <p class="text-sm font-semibold text-slate-200">No se encontraron auditorías</p>
-                  <p class="text-xs text-slate-400 mt-1 max-w-sm">
-                    @if (searchQuery()) {
-                      No hay resultados coincidentes con "{{ searchQuery() }}".
-                    } @else {
-                      Aún no se ha registrado ninguna auditoría en el sistema.
-                    }
-                  </p>
+          </ng-container>
+          <tr *ngIf="filteredAuditorias().length === 0">
+            <td colspan="5" class="py-12 px-4 text-center">
+              <div class="flex flex-col items-center justify-center">
+                <div class="p-3 rounded-full bg-slate-800/80 text-emerald-400/60 border border-emerald-500/10 mb-3">
+                  <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
                 </div>
-              </td>
-            </tr>
-          }
+                <p class="text-sm font-semibold text-slate-200">No se encontraron auditorías</p>
+                <p class="text-xs text-slate-400 mt-1 max-w-sm">
+                  <span *ngIf="searchQuery(); else noSearch">
+                    No hay resultados coincidentes con "{{ searchQuery() }}".
+                  </span>
+                  <ng-template #noSearch>
+                    Aún no se ha registrado ninguna auditoría en el sistema.
+                  </ng-template>
+                </p>
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
-  }
+  </ng-container>
 </div>

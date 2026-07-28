@@ -1,12 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { Audit } from '../../models/auditoria.model';
 
 @Component({
   selector: 'app-auditoria-delete-modal',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './auditoria-delete-modal.html',
-  styleUrl: './auditoria-delete-modal.css',
+  styleUrls: ['./auditoria-delete-modal.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuditoriaDeleteModal {

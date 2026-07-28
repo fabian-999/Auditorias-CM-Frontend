@@ -5,7 +5,7 @@ import { Component, ChangeDetectionStrategy, output } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './auditorias-toolbar.html',
-  styleUrl: './auditorias-toolbar.css',
+  styleUrls: ['./auditorias-toolbar.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuditoriasToolbar {

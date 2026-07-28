@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectionStrategy, input, output, inject, effect } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Audit, AuditStatus, CreateAuditDto, UpdateAuditDto } from '../../models/auditoria.model';
@@ -10,9 +11,9 @@ export interface AuditFormSubmitEvent {
 @Component({
   selector: 'app-auditoria-form-modal',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './auditoria-form-modal.html',
-  styleUrl: './auditoria-form-modal.css',
+  styleUrls: ['./auditoria-form-modal.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuditoriaFormModal {

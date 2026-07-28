@@ -1,5 +1,5 @@
 import { Component, inject, ChangeDetectionStrategy, input, output, computed } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, NgForOf } from '@angular/common';
 import { Audit } from '../../models/auditoria.model';
 import { Auditorias } from '../../services/auditorias';
 import { AuditoriaStatusBadge } from '../auditoria-status-badge/auditoria-status-badge';
@@ -7,9 +7,9 @@ import { AuditoriaStatusBadge } from '../auditoria-status-badge/auditoria-status
 @Component({
   selector: 'app-auditorias-table',
   standalone: true,
-  imports: [AuditoriaStatusBadge, DatePipe],
+  imports: [CommonModule, NgForOf, AuditoriaStatusBadge, DatePipe],
   templateUrl: './auditorias-table.html',
-  styleUrl: './auditorias-table.css',
+  styleUrls: ['./auditorias-table.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuditoriasTable {
@@ -40,6 +40,10 @@ export class AuditoriasTable {
       return titleMatch || puntoMatch || processMatch || statusMatch;
     });
   });
+
+  trackByAuditoriaId(index: number, auditoria: Audit): string {
+    return auditoria.id;
+  }
 
   onEdit(auditoria: Audit): void {
     this.editAuditoria.emit(auditoria);

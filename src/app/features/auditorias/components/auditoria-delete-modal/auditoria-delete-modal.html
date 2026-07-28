@@ -1,4 +1,4 @@
-@if (isOpen() && auditoriaToDelete()) {
+<ng-container *ngIf="isOpen() && auditoriaToDelete()">
   <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-md transition-opacity duration-300">
     <div class="relative w-full max-w-md bg-slate-900/90 border border-rose-500/30 rounded-2xl shadow-2xl shadow-rose-500/10 overflow-hidden p-6 transform transition-all text-center">
       
@@ -34,4 +34,4 @@
 
     </div>
   </div>
-}
+</ng-container>
