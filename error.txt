@@ -1,0 +1,43 @@
+❯ Building...
+✔ Building...
+Application bundle generation failed. [3.583 seconds] - 2026-07-25T17:13:49.182Z
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLink is not used within the template of Login[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/auth/pages/login/login.ts:13:4:
+[37m      13 │     [32mRouterLink[37m
+         ╵     [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG5002: Parser Error: Conditional expression alCount ? ((totalCount - pendingReports) / totalCount * 100) | number:'1.0-0' : 0  requires all 3 expressions at the end of the expression [ totalCount ? ((totalCount - pendingReports) / totalCount * 100) | number:'1.0-0' : 0 ] in D:\Descargas\Users\Estudiante\Desktop\Auditorias front\Auditorias-CM-Frontend\src\app\features\dashboard\pages\home\home.html@59:18[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/dashboard/pages/home/home.html:60:18:
+[37m      60 │ ...          [32m{{ totalCount ? ((totalCount - pendingReports) / tota[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component Home.
+
+    src/app/features/dashboard/pages/home/home.ts:19:15:
+[37m      19 │   templateUrl: [32m'./home.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2769: No overload matches this call.
+  Overload 1 of 3, '(value: string | number, digitsInfo?: string | undefined, locale?: string | undefined): string | null', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string'.
+  Overload 2 of 3, '(value: null | undefined, digitsInfo?: string | undefined, locale?: string | undefined): null', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'null | undefined'.
+  Overload 3 of 3, '(value: string | number | null | undefined, digitsInfo?: string | undefined, locale?: string | undefined): string | null', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/dashboard/pages/home/home.html:60:87:
+[37m      60 │ ...ngReports) / totalCount * 100) | [32mnumber[37m:'1.0-0' : 0 }}% completado
+         ╵                                     [32m~~~~~~[0m
+
+  Error occurs in the template of component Home.
+
+    src/app/features/dashboard/pages/home/home.ts:19:15:
+[37m      19 │   templateUrl: [32m'./home.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~[0m
+
+
