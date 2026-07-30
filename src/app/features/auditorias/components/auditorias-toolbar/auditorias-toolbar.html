@@ -1,25 +1,24 @@
 <section class="p-8">
 
   <div
-    class="rounded-3xl
-           border border-white/20
-           bg-white/10
-           backdrop-blur-xl
-           shadow-2xl
+    class="rounded-2xl
+           border border-emerald-200/40
+           bg-white
+           shadow-lg
            relative overflow-hidden p-6 sm:p-8 transition-all">
 
     <!-- Brillo decorativo sutil en la esquina superior izquierda -->
-    <div class="pointer-events-none absolute -left-10 -top-10 h-40 w-40 rounded-full bg-emerald-500/10 blur-3xl" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -left-10 -top-10 h-40 w-40 rounded-full bg-emerald-400/5 blur-3xl" aria-hidden="true"></div>
 
     <!-- Estructura Flex: Título a la izquierda, Controles a la derecha en Desktop -->
     <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
       
       <!-- Título y Subtítulo -->
       <div class="space-y-1">
-        <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+        <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
           Gestión de Auditorías
         </h1>
-        <p class="text-sm text-emerald-100/70">
+        <p class="text-sm text-slate-600">
           Administra, consulta y crea auditorías del sistema.
         </p>
       </div>
@@ -31,18 +30,18 @@
         <div class="relative min-w-[260px] flex-1 sm:flex-initial">
           <label for="search-auditorias" class="sr-only">Buscar auditorías</label>
           <!-- Icono Lupa SVG -->
-          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-emerald-200/60">
+          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-emerald-600/60">
             <svg class="h-4 w-4" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
             </svg>
           </div>
-          <!-- Input con estilo Glass y foco esmeralda -->
+          <!-- Input con estilo limpio y foco esmeralda -->
           <input
             id="search-auditorias"
             type="search"
             placeholder="Buscar por código, título o estado..."
             (input)="onSearchInput($event)"
-            class="w-full rounded-xl border border-white/10 bg-black/20 py-2.5 pl-10 pr-4 text-sm text-white placeholder-emerald-100/40 shadow-inner transition-all focus:border-emerald-500/50 focus:bg-black/30 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+            class="w-full rounded-lg border border-emerald-300/40 bg-white px-4 py-2.5 pl-10 text-sm text-slate-900 placeholder-slate-400 shadow-sm transition-all focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30 font-medium"
           />
         </div>
 
@@ -53,10 +52,10 @@
           <button
             type="button"
             (click)="openFilters.emit()"
-            class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-emerald-100 shadow-sm transition-all hover:bg-white/10 hover:text-white active:scale-95 sm:flex-initial"
+            class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-emerald-400/60 bg-emerald-50/80 px-4 py-2.5 text-sm font-medium text-emerald-700 shadow-sm transition-all hover:bg-emerald-100 hover:border-emerald-500 active:scale-95 sm:flex-initial"
           >
             <!-- Icono Filtro SVG -->
-            <svg class="h-4 w-4 text-emerald-300" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <svg class="h-4 w-4 text-emerald-600" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
             <span>Filtros</span>
@@ -66,7 +65,7 @@
           <button
             type="button"
             (click)="createAuditoria.emit()"
-            class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-950/50 transition-all hover:from-emerald-400 hover:to-green-500 hover:shadow-emerald-900/50 active:scale-95 sm:flex-initial"
+            class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-to-br from-emerald-600 to-emerald-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-600/30 transition-all hover:from-emerald-700 hover:to-emerald-800 hover:shadow-emerald-700/40 active:scale-95 sm:flex-initial"
           >
             <!-- Icono Plus (+) SVG -->
             <svg class="h-4 w-4 stroke-[2.5]" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -3,7 +3,7 @@ import {
   Component,
   inject
 } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 import {
   Router,
@@ -17,7 +17,7 @@ import { LayoutStateService } from '../layout/layout-state.service';
   selector: 'app-sidebar',
   standalone: true,
   imports: [
-    NgIf,
+    CommonModule,
     RouterLink,
     RouterLinkActive
   ],

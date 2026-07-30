@@ -1,5 +1,5 @@
 <div class="flex min-h-screen flex-col bg-slate-100">
-  <header class="bg-[#0e6a13] text-white shadow-[0_30px_80px_rgba(15,23,42,0.25)]">
+  <header *ngIf="showHeader()" class="bg-[#0e6a13] text-white shadow-[0_30px_80px_rgba(15,23,42,0.25)]">
     <div class="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-8 sm:px-8 lg:flex-row lg:items-center lg:justify-between">
       <div class="flex items-center gap-5">
         <div class="rounded-[30px] bg-white/10 p-4 ring-1 ring-white/15 shadow-lg shadow-black/20">
@@ -25,19 +25,24 @@
     </main>
   </div>
 
-  <!-- Mapa de Ocaña: iframe simple, mostrado arriba del footer en todas las páginas -->
-  <!-- Contenedor centrado para el mapa (panel claro, borde redondeado) -->
-  <div class="w-full">
+  <!-- Mapa de Ocaña: Google Maps embebido, mostrado arriba del footer en todas las páginas -->
+  <div *ngIf="showMap()" class="w-full">
     <div class="mx-auto max-w-7xl px-6 pb-8 xl:px-8">
       <div class="rounded-2xl bg-white/60 p-4 shadow-inner">
-        <div class="rounded-xl overflow-hidden bg-white">
-          <div id="epic-map" class="w-full h-64 lg:h-96"></div>
+        <div class="overflow-hidden rounded-xl bg-white">
+          <iframe
+            title="Mapa de Ocaña, Norte de Santander"
+            src="https://www.google.com/maps?q=Oca%C3%B1a%2C%20Norte%20de%20Santander&z=13&output=embed"
+            class="h-64 w-full min-h-[18rem] border-0 lg:h-96"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
       </div>
     </div>
   </div>
 
-  <footer class="bg-[#0e6a13] text-white">
+  <footer *ngIf="showFooter()" class="bg-[#0e6a13] text-white">
     <div class="mx-auto grid max-w-7xl gap-10 px-6 py-12 xl:grid-cols-[1.4fr_1fr_1fr_1fr] xl:px-8">
       <div class="space-y-6">
         <div class="flex items-center gap-4">

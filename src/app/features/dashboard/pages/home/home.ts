@@ -113,6 +113,7 @@ export class Home implements OnInit {
     }
 
     this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+    this.restartAutoSlide();
   }
 
   previousSlide(): void {
